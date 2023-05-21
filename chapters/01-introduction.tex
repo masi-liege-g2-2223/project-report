@@ -2,8 +2,32 @@
 
 Notre équipe est composée de 8 personnes:
 
-\paragraph{Joey Brynckman}
-\paragraph{Andrea Dal Molin}
+\paragraph{Joey Brynckman} (Serveur marchand, application Android \& bases du National Bank Server)
+
+Je me suis occupé principalement de la partie marchande de notre application. J'ai donc créé le serveur
+permettant de contenir les données relatives aux comptes et aux produits à vendre. Pour ce faire, je me
+suis donc occupé de la création de la base de données, de l'accès à ses données grâce à un ORM, de l'API
+et de la sécurisation de ses endpoints.
+
+Comme le National Bank Server fonctionne sur un principe similaire au serveur marchand, je me suis
+donc également occupé de ces aspects de ce serveur. Bien sûr, pour le NBS, il y a beaucoup plus à faire
+que ça, notamment l'accès aux bases noSQL et la génération de données, mais c'est Thibault qui s'est
+occupé de ces parties-là. Je n'ai fait que la base de ce serveur.
+
+Enfin, je me suis également occupé de l'application Android. Ses pages, leur fonctionnement, ainsi que
+les accès à l'API du serveur que j'ai créé. Seule la page de paiement n'a pas été faite par moi, comme il
+s'agit d'une page web, d'un portail de paiement créé par Lionel.
+
+Mon choix de faire ces parties vient du fait que j'avais moi-même commencé un projet personnel qui
+fonctionnait de manière similaire à notre application Android et notre serveur marchand. J'avais donc
+certaines bases et connaissances que j'ai pu utiliser à bon escient.
+
+\paragraph{Andrea Dal Molin} (Responsable Java Card \& beID)
+
+L'intégration de l'authentification via carte d'identité électronique et la gestion des cartes de fidélité ont été mes principales tâches au sein du groupe. Les raisons de ce choix se justifient par la possession personnelle du matériel utile au développement de ces parties, notamment pour ce qui concerne la lecture de carte d'identité électronique. 
+
+De plus, je portais personnellement un intérêt particulier quant à l'intégration de ces deux technologies différentes avec une architecture complète comme celle du Projet Intégré. Comme il sera décrit dans la partie concernant mes sujets, le développement des parties s'est révélé stimulant. 
+
 \paragraph{Thibault Havet}
 \paragraph{Flo Raeymaeckers} (DevOps \& Responsable Équipe)
 
@@ -11,7 +35,14 @@ Je me suis occupée de l'infrastructure logicielle du déploiement de la solutio
 
 De plus, j'ai géré l'équipe. J'ai travaillé sur la mise en commun des ressources (réunions, outils de suivi de projet...), de ce rapport, et enfin de la présentation que vous allez pouvoir assister. Je vais passer en revue dans ce document les différentes difficultés par lesquelles je suis passée et les éventuelles solutions que j'ai apporté.
 
-\paragraph{Arnaud Rase}
+\paragraph{Arnaud Rase} (Responsable réseau \& aide en DevOps)
+
+Pour ma part, j'ai été mit en charge de l'implémentation de la partie sur le réseau privé de la
+banque Picsou. J'ai également aidé Florent à lier celle-ci aux différents serveurs hébergés sur
+l'ESXi. L'infrastructure aura 2 grandes parties, la partie routage et switching, nous pourront
+notamment retrouver du load balancing, de la traduction d'adresses IP publiques en adresses
+IP privée et une disponibilité presque ininterrompue
+
 \paragraph{William Tea}
 \paragraph{Lionel Thys}
 \paragraph{Alexandre Villance}
