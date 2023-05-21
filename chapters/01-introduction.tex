@@ -45,10 +45,23 @@ IP privée et une disponibilité presque ininterrompue
 
 \paragraph{William Tea}
 \paragraph{Lionel Thys}
-\paragraph{Alexandre Villance}
+\paragraph{Alexandre Villance} (Responsable NoSQL)
+
+J'ai pris en charge la mise en place des bases de données dans le projet. Mon attention s'est
+principalement portée sur la partie NO-SQL, et nous avons choisi d'utiliser MongoDB en le combinant
+avec Docker. J'ai configuré plusieurs replica sets et mis en place le sharding. J'ai également collaboré
+avec les personnes chargées de stocker les données dans la base de données, en assurant une bonne
+communication pour assurer leur bon fonctionnement
 
 \chapter{Étude et mise en théorie de l'infrastructure}
 
 Dans ce chapitre, nous allons passer en revue l'étude que nous avons effectué sur l'énoncé du projet transmit pas nos professeurs. Le projet part d'un énoncé basé sur une version "simplifiée" de 3D secure, ou du moins plus ou moins cousine: nous avons un marchand qui souhaite pouvoir proposer à ses clients la vente de ses services/bien en ligne. Afin que le consommateur puisse payer, le marchand a besoin d'une plateforme de paiement en ligne. Notre rôle est d'implémenter cette plateforme de payement au niveau de la banque du consommateur, qui va alors se synchroniser avec la banque du marchand pour valider la transaction.
 
 \section{Schéma de l'infrastructure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./img/Schéma Projet Intégré.png}
+    \caption{Schéma global du projet intégré}
+    \label{fig:infrastructure}
+\end{figure}

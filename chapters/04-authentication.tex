@@ -66,6 +66,23 @@ Identity Provider existant, tel que Google, Github, Facebook, \dots
 
 \subsection{Fonctionnement}
 
+\subsubsection{Authentification}
+
+Le principe de keycloak est, comme énoncé dans l'introduction, de séparer la partie d'authentification
+de la partie fonctionnement de l'ACS. Pour se faire, le client va essayer de se connecter à l'ACS, mais
+sera redirigé vers Keycloak. Si l'authentification est réussie, le client pourra accéder à l'ACS. Si le client
+essaie de se reconnecter, Keycloak va vérifier si le token généré est toujours valide et si c'est le cas, va
+directement rediriger le client à l'ACS (fonctionnement du SSO).
+
+Le formulaire de connexion sera détaillé plus tard, dans la partie Authentication Flow.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./img/Keycloak-Authentication-Process.png}
+    \caption{Processus d'authentification}
+    \label{fig:keycloak_auth}
+\end{figure}
+
 \subsubsection{Realms}
 
 Keycloak intègre la notion de royaumes, ou realms qui implémente chacun leur client de connexion,
@@ -156,6 +173,32 @@ Ces flux d'authentification représentent les différents formulaires d'authenti
 partie Clients. Nous pouvons choisir les conditions de connexion tel que via cookie (pour le SSO), via
 Identity Provider (pour une connexion via Google, ...) ou encore via un formulaire customisé.
 
+Pour ce faire, nous avons implémenté un client (client2FA) et nous lui avons ajouté le Authentication
+Flow suivant :
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./img/Keycloak-AuthenticationFlow-BrowserFlow.png}
+    \caption{Flow d'authentification du browser}
+    \label{fig:keycloak_browser_2fa}
+\end{figure}
+
+Cet Authentication Flow possède 3 moyens de connexion : par Cookie, par Identity Provider et par le
+formulaire 2FA. Si l'utilisateur utilise l'un de ses moyens, il sera authentifié et redirigé vers l'ACS.
+
+Pour le formulaire 2FA, nous avons le choix entre 3 formulaires : SMS, Mail et OTP. Ces trois
+formulaires ont le même fonctionnement. Ils contiennent chacun un formulaire Username \& Password, ainsi qu'un formulaire utilisé par le moyen 2FA. Ces deux formulaires sont obligatoires et sont donc en « Required ».
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./img/Keycloak-AuthenticationFlow-2FAForm.png}
+    \caption{Flow d'authentification 2FA}
+    \label{fig:keycloak_flow_2fa}
+\end{figure}
+
+Les formulaires d'authentification via Mail et SMS sont gérés par des librairies externes que nous
+détaillons au point suivant.
+
 \subsubsection{Providers externes}
 
 Keycloak supporte l'ajout de librairies externes. Nous en avons utilisé et créé pour:
@@ -166,8 +209,19 @@ Keycloak supporte l'ajout de librairies externes. Nous en avons utilisé et cré
     \item La sauvegarde d'event customisée pour stockage sur une BD MongoDB
 \end{itemize}
 
-Pour se faire, nous devons juste inclure le(s) fichier(s) .jar dans l'onglet provider du serveur de
+Pour ce faire, nous devons juste inclure le(s) fichier(s) .jar dans l'onglet provider du serveur de
 Keycloak.
 
-Dépendant de la librairie, nous avons des parties de formulaire (pour l'authentification 2FA) ou des
-EventListener à lier aux events du realm.
+Pour la création de formulaire SMS et Mail, il faut obligatoirement créer deux classes : une qui
+implémente l'interface Authenticator et une autre qui implémente l'interface AuthenticatorFactory.
+Ces classes sont fournies dans la librairie open-source de Keycloak. La classe Authenticator va quand
+à elle récupérer un fichier .ftl qui sera notre formulaire personnalisé. La classe AuthenticatorFactory
+quant à elle va contenir toutes les informations du moyen d'authentification.
+
+Pour l'enregistrement des events, nous avons créer une librairie contenant deux classes : une qui
+implémente la classe EventListenerProvider et une autre qui implémente l'interface
+EventListenerProviderFactory. Ces classes sont aussi fournis dans la librairie de Keycloak. La classe
+EventListenerProvider va contenir la fonction onEvent, qui indiquera à l'application le comportement
+à avoir selon l'évènnement reçu en paramètre. La classe EventListenerProviderFactory va contenir les
+options lors de l'initialisation et la fermeture du listener, ainsi que les informations du provider dans
+l'application Keycloak.
