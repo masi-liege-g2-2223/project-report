@@ -1,0 +1,47 @@
+\section{Topologie Réseau}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./img/Projet réseau.png}
+    \caption{Topologie du réseau}
+    \label{fig:arnaud-topo}
+\end{figure}
+
+Pour la partie routage du réseau, le protocole BGP a été mis en place afin de communiquer
+entre les différents ISPs et systèmes autonomes (AS). L'utilisation de 2 ISPs différent permet
+l'accès à internet et la connectivité avec d'autres réseaux externes. BGP quant à lui prend en
+charge le routage dans un environnement où plusieurs AS interagissent. La double relation
+entre les routeurs R2 et R3 sont de l'IBGP alors que celles entre les ISPs, l'internet et les
+routeurs 2 et 3 sont de type EBGP. Afin de faciliter la communication entre les différents liens,
+l'interface de loopback a été utilisée pour donner une interface de « référence » virtuelle qui
+ne changera pour s'occuper de ces communications. Il a également été imposé que les deux
+ISPs ne puissent pas communiquer entre eux via le réseau privé, celui-ci ne doit pas servir de
+zone de transit.
+
+Une fois rentré dans la partie « privée » du réseau, c'est le protocole EIGRP qui prend le relai
+afin de rediriger les paquets venant de l'internet vers routeur 1 qui aura la charge de PAT/NAT.
+Contrairement au BGP utilisé pour communiquer entre plusieurs AS, EIGRP se concentre sur
+le routage au sein d'un même AS. Une fois la traduction terminée, R1 va pouvoir amener les
+paquets vers le serveur qui sera utilisé.
+
+Pour accéder au serveur, le paquet passera par une partie switchée qui a le spanning-tree
+protocol de configuré. Celui-ci permet d'empêcher les boucles potentielles tout en conservant
+une certaine redondance. Avec cela les potentiels problèmes de congestions liés aux boucles
+n'auront pas lieu.
+
+L'utilisation conjointe de VLAN et de HSRP permet de gérer d'une façon plus fluide et plus
+adaptée les différentes requêtes de chaque serveur.
+
+Le VLAN permet d'avoir une sécurité améliorée en segmentant le réseau en groupes logiques
+distincts. Cette segmentation profite également au niveau des performances en répartissant
+les charges pour une meilleure gestion des ressources.
+
+Le HSRP permet lui une meilleure disponibilité du réseau d'une façon un peu similaire au
+spanning-tree. L'utilisation simultanée de ces deux protocoles permet une gestion efficace des
+ressources, une redondance et un rétablissement automatique.
+
+Dans le cadre de ce projet, il a été convenu d'utiliser la version d'essai de Cisco Modeling Labs.
+Malheureusement celle-ci ne vient pas sans restriction, la connexion au réseau externe via un
+« external connector » ne fonctionne pas empêchant d'intégrer la topologie montrée
+précédemment au reste du projet. Le « switch virtuel » présent dans la topologie est là pour
+représenter à quoi aurait dû ressembler la topologie si la connexion avait été possible.
